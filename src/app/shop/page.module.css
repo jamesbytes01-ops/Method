@@ -1,0 +1,143 @@
+.shop {
+  padding-bottom: 120px;
+}
+
+.pageHeader {
+  background-color: var(--bg-secondary);
+  padding: 80px 0;
+  margin-bottom: 64px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 48px;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.filterTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.filterList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filterList a {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  transition: color 0.2s;
+}
+
+.filterList a:hover {
+  color: var(--text-primary);
+}
+
+.activeFilter {
+  color: var(--text-primary) !important;
+  font-weight: 600;
+}
+
+.accentFilter {
+  color: var(--accent) !important;
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.checkbox input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--text-primary);
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.resultsCount {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+.sortSelect {
+  padding: 8px 32px 8px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-primary);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 80px 0;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 1024px) {
+  .productGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    display: none; /* In a real app, this would be a slide-out drawer */
+  }
+  .productGrid {
+    grid-template-columns: 1fr;
+  }
+}
