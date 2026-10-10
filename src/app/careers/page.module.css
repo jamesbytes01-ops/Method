@@ -1,0 +1,130 @@
+.careers {
+  min-height: 100vh;
+}
+.hero {
+  position: relative;
+  height: 60vh;
+  min-height: 500px;
+  overflow: hidden;
+}
+.heroBg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 100%);
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 80px;
+  color: white;
+}
+.title {
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+.subtitle {
+  font-size: 1.25rem;
+  opacity: 0.8;
+  max-width: 600px;
+}
+.jobsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.jobCard {
+  padding: 32px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--bg-secondary);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.jobCard:hover {
+  border-color: #111;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+}
+.jobCard h3 {
+  margin: 0;
+  flex: 1;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.tag {
+  padding: 6px 12px;
+  background: #fff;
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.perksSection {
+  background-color: var(--bg-secondary);
+  padding: 100px 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.perksGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.perkCard {
+  background: #fff;
+  padding: 32px;
+  border-radius: 16px;
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.perkIcon {
+  font-size: 2.5rem;
+  margin-bottom: 24px;
+}
+
+.perkCard h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.perkCard p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .perksGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+  .jobCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

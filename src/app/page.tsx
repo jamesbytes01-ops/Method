@@ -15,60 +15,63 @@ export default function Home() {
   return (
     <div className={styles.home}>
       {/* 6. HERO */}
-      <section className={styles.hero}>
-        <div className={`container ${styles.heroContainer}`}>
-          <div className={styles.heroContent}>
-            <h1 className="h1 animate-fade-in">Tools worth installing.</h1>
-            <p className={`text-lg text-muted ${styles.heroDesc} animate-fade-in`} style={{ animationDelay: '0.1s' }}>
-              The premium marketplace for carefully selected software, security products, and digital resources designed for modern teams.
+      <section className={styles.heroSplit}>
+        <div className={`container ${styles.heroSplitContainer}`}>
+          <div className={styles.heroSplitContent}>
+            <div className={`${styles.heroBadge} animate-fade-in`}>Method Marketplace 2.0</div>
+            <h1 className={`${styles.heroTitleSplit} animate-fade-in`} style={{ animationDelay: '0.1s' }}>
+              Premium digital tools.<br/>For modern professionals.
+            </h1>
+            <p className={`${styles.heroDescSplit} animate-fade-in`} style={{ animationDelay: '0.2s' }}>
+              Discover curated software, productivity tools, and design resources used by the world's most innovative teams.
             </p>
-            <div className={`${styles.heroActions} animate-fade-in`} style={{ animationDelay: '0.2s' }}>
-              <Link href="/shop" className="btn btn-primary">Explore the marketplace</Link>
-              <Link href="/shop?category=software" className="btn btn-secondary">Browse categories</Link>
+            <div className={`${styles.heroActionsSplit} animate-fade-in`} style={{ animationDelay: '0.3s' }}>
+              <Link href="/shop" className={`${styles.heroBtn} ${styles.heroBtnPrimary}`}>Explore marketplace</Link>
+              <Link href="/shop?category=software" className={`${styles.heroBtn} ${styles.heroBtnSecondary}`}>Browse categories</Link>
             </div>
           </div>
-          <div className={`${styles.heroVisuals} animate-fade-in`} style={{ animationDelay: '0.3s' }}>
-            <div className={styles.heroGrid}>
-              <div className={styles.heroCardMain}>
-                <ProductVisual name="Flowdesk Pro" category="productivity" imageUrl="/images/products/flowdesk_pro_1791480200502.png" />
-                <div className={styles.heroCardInfo}>
-                  <span className={styles.heroCardCat}>Productivity</span>
-                  <span className={styles.heroCardName}>Flowdesk Pro</span>
-                </div>
-              </div>
-              <div className={styles.heroCardSub}>
-                <ProductVisual name="CipherGuard Pro" category="security" imageUrl="/images/products/cipherguard_pro_1791480222880.png" />
-              </div>
-              <div className={styles.heroCardSub}>
-                <ProductVisual name="DevPilot" category="dev-tools" imageUrl="/images/products/devpilot_toolkit_1791480233961.png" />
-              </div>
-            </div>
+          <div className={`${styles.heroSplitVisuals} animate-fade-in`} style={{ animationDelay: '0.5s' }}>
+            <img src="/images/hero.png" alt="Premium Workspace" className={styles.heroSplitImage} />
           </div>
         </div>
       </section>
 
-      {/* 7. TRUST STRIP */}
+      {/* 7. TRUST STRIP - CLEAN & USER FRIENDLY */}
       <section className={styles.trust}>
         <div className={`container ${styles.trustContainer}`}>
-          <div className={styles.trustItem}>
-            <span className={styles.trustIcon}>⚡</span>
-            <span>Instant digital delivery</span>
-          </div>
-          <div className={styles.trustItem}>
-            <span className={styles.trustIcon}>🔒</span>
-            <span>Secure checkout</span>
-          </div>
-          <div className={styles.trustItem}>
-            <span className={styles.trustIcon}>🛡️</span>
-            <span>Verified software</span>
-          </div>
-          <div className={styles.trustItem}>
-            <span className={styles.trustIcon}>🔑</span>
-            <span>Genuine licenses</span>
-          </div>
-          <div className={styles.trustItem}>
-            <span className={styles.trustIcon}>💬</span>
-            <span>30-day support</span>
+          <div className={styles.trustFeatures}>
+            <div className={styles.trustFeature}>
+              <div className={styles.trustFeatureIcon}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              </div>
+              <h3 className={styles.trustFeatureTitle}>Instant Delivery</h3>
+              <p className={styles.trustFeatureDesc}>Get access to your digital products immediately after purchase.</p>
+            </div>
+            
+            <div className={styles.trustFeature}>
+              <div className={styles.trustFeatureIcon}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <h3 className={styles.trustFeatureTitle}>Secure Payments</h3>
+              <p className={styles.trustFeatureDesc}>Your transactions are protected by bank-level encryption.</p>
+            </div>
+
+            <div className={styles.trustFeature}>
+              <div className={styles.trustFeatureIcon}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="8" r="5"></circle>
+                  <path d="M20 21a8 8 0 1 0-16 0"></path>
+                </svg>
+              </div>
+              <h3 className={styles.trustFeatureTitle}>Verified Creators</h3>
+              <p className={styles.trustFeatureDesc}>All tools are vetted and sourced directly from original creators.</p>
+            </div>
           </div>
         </div>
       </section>
