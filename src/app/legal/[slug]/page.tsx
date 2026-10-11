@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './page.module.css';
 
 export function generateStaticParams() {
@@ -25,10 +26,10 @@ export default async function LegalPage({ params }: { params: Promise<{ slug: st
       <div className={`container ${styles.container}`}>
         <div className={styles.sidebar}>
           <ul>
-            <li className={slug === 'privacy' ? styles.active : ''}><a href="/legal/privacy">Privacy Policy</a></li>
-            <li className={slug === 'terms' ? styles.active : ''}><a href="/legal/terms">Terms of Service</a></li>
-            <li className={slug === 'refunds' ? styles.active : ''}><a href="/legal/refunds">Refund Policy</a></li>
-            <li className={slug === 'licenses' ? styles.active : ''}><a href="/legal/licenses">License Policy</a></li>
+            <li className={slug === 'privacy' ? styles.active : ''}><Link href="/legal/privacy">Privacy Policy</Link></li>
+            <li className={slug === 'terms' ? styles.active : ''}><Link href="/legal/terms">Terms of Service</Link></li>
+            <li className={slug === 'refunds' ? styles.active : ''}><Link href="/legal/refunds">Refund Policy</Link></li>
+            <li className={slug === 'licenses' ? styles.active : ''}><Link href="/legal/licenses">License Policy</Link></li>
           </ul>
         </div>
         <div className={styles.content}>
