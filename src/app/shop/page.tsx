@@ -3,6 +3,8 @@ import { ProductCard } from '@/components/ProductCard';
 import styles from './page.module.css';
 import Link from 'next/link';
 
+export const instant = false;
+
 export default async function ShopPage({ searchParams }: { searchParams: Promise<{ category?: string; deals?: string }> }) {
   const params = await searchParams;
   const categoryId = params.category;

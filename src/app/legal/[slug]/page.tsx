@@ -1,6 +1,16 @@
 import styles from './page.module.css';
 
-export default async function LegalPage({ params }: { params: { slug: string } }) {
+export function generateStaticParams() {
+  return [
+    { slug: 'privacy' },
+    { slug: 'terms' },
+    { slug: 'refunds' },
+    { slug: 'licenses' },
+  ];
+}
+
+export default async function LegalPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const titles: Record<string, string> = {
     privacy: 'Privacy Policy',
     terms: 'Terms of Service',
@@ -8,17 +18,17 @@ export default async function LegalPage({ params }: { params: { slug: string } }
     licenses: 'License Policy'
   };
 
-  const title = titles[params.slug] || 'Legal Information';
+  const title = titles[slug] || 'Legal Information';
 
   return (
     <div className={styles.legal}>
       <div className={`container ${styles.container}`}>
         <div className={styles.sidebar}>
           <ul>
-            <li className={params.slug === 'privacy' ? styles.active : ''}><a href="/legal/privacy">Privacy Policy</a></li>
-            <li className={params.slug === 'terms' ? styles.active : ''}><a href="/legal/terms">Terms of Service</a></li>
-            <li className={params.slug === 'refunds' ? styles.active : ''}><a href="/legal/refunds">Refund Policy</a></li>
-            <li className={params.slug === 'licenses' ? styles.active : ''}><a href="/legal/licenses">License Policy</a></li>
+            <li className={slug === 'privacy' ? styles.active : ''}><a href="/legal/privacy">Privacy Policy</a></li>
+            <li className={slug === 'terms' ? styles.active : ''}><a href="/legal/terms">Terms of Service</a></li>
+            <li className={slug === 'refunds' ? styles.active : ''}><a href="/legal/refunds">Refund Policy</a></li>
+            <li className={slug === 'licenses' ? styles.active : ''}><a href="/legal/licenses">License Policy</a></li>
           </ul>
         </div>
         <div className={styles.content}>
