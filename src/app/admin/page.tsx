@@ -1,8 +1,6 @@
 import Link from 'next/link';
 import styles from './page.module.css';
 
-export const instant = false;
-
 export default async function AdminPage({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
   const params = await searchParams;
   const tab = params.tab || 'dashboard';
