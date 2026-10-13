@@ -88,9 +88,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: auto;
   border-top: 1px solid var(--border-subtle);
   padding-top: 16px;
+  margin-bottom: 16px;
 }
 
 .rating {
@@ -130,4 +130,36 @@
   font-size: 1rem;
   font-weight: 700;
   color: var(--text-primary);
+}
+
+/* Add to Cart Button */
+.addToCartBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 16px;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: auto;
+}
+
+.addToCartBtn:hover {
+  background-color: var(--text-primary);
+  color: white;
+  border-color: var(--text-primary);
+}
+
+.addedBtn {
+  background-color: var(--success) !important;
+  color: white !important;
+  border-color: var(--success) !important;
 }

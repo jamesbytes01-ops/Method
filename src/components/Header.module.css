@@ -51,6 +51,7 @@
 
 .navLinkAccent {
   color: var(--accent);
+  font-weight: 600;
 }
 
 .navItem {
@@ -94,6 +95,10 @@
   background-color: var(--bg-secondary);
 }
 
+.icon {
+  font-size: 1rem;
+}
+
 .searchWrapper {
   position: relative;
   display: flex;
@@ -104,10 +109,11 @@
   position: absolute;
   left: 12px;
   color: var(--text-tertiary);
+  pointer-events: none;
 }
 
 .searchInput {
-  width: 260px;
+  width: 240px;
   height: 40px;
   padding: 0 16px 0 40px;
   border: 1px solid var(--border-subtle);
@@ -116,10 +122,11 @@
   font-size: 0.9375rem;
   transition: all 0.2s ease;
   outline: none;
+  font-family: inherit;
 }
 
 .searchInput:focus {
-  width: 320px;
+  width: 300px;
   border-color: var(--accent);
   background-color: var(--bg-primary);
   box-shadow: 0 0 0 3px var(--accent-light);
@@ -166,13 +173,130 @@
   color: var(--text-primary);
   font-size: 0.75rem;
   font-weight: 700;
-  padding: 2px 6px;
+  padding: 2px 7px;
   border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
 }
 
 .mobileMenuBtn {
   display: none;
   color: var(--text-primary);
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s;
+}
+
+.mobileMenuBtn:hover {
+  background-color: var(--bg-secondary);
+}
+
+/* MOBILE OVERLAY */
+.mobileOverlay {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--bg-primary);
+  z-index: 49;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 0;
+  overflow-y: auto;
+  border-top: 1px solid var(--border-subtle);
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mobileSearch {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.mobileSearchInput {
+  flex: 1;
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-secondary);
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.mobileSearchInput:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+  background: var(--bg-primary);
+}
+
+.mobileSearchBtn {
+  height: 48px;
+  padding: 0 20px;
+  background-color: var(--text-primary);
+  color: white;
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+.mobileSearchBtn:hover {
+  background-color: #000;
+}
+
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobileNavLink {
+  display: block;
+  padding: 14px 12px;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  transition: background-color 0.15s;
+}
+
+.mobileNavLink:hover {
+  background-color: var(--bg-secondary);
+}
+
+.mobileNavLinkAccent {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.mobileDivider {
+  height: 1px;
+  background-color: var(--border-subtle);
+  margin: 16px 0;
+}
+
+.mobileActions {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobileActions a {
+  width: 100%;
+  justify-content: center;
 }
 
 @media (max-width: 1024px) {
@@ -184,5 +308,8 @@
   }
   .mobileMenuBtn {
     display: block;
+  }
+  .actions {
+    gap: 12px;
   }
 }

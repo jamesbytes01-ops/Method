@@ -1,18 +1,26 @@
+'use client';
+
 import { products } from '@/data/products';
 import { ProductVisual } from '@/components/ProductVisual';
 import { ProductCard } from '@/components/ProductCard';
 import styles from './page.module.css';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
+import { useCart } from '@/context/CartContext';
+import { useState } from 'react';
 
-export function generateStaticParams() {
-  return products.map(p => ({ slug: p.slug }));
-}
+const formatPrice = (p: number) =>
+  new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(p);
 
-export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+export default function ProductPage() {
+  const params = useParams();
+  const slug = params?.slug as string;
   const product = products.find(p => p.slug === slug);
-  
+
+  const { addItem } = useCart();
+  const [added, setAdded] = useState(false);
+  const [qty, setQty] = useState(1);
+
   if (!product) {
     notFound();
   }
@@ -21,12 +29,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     .filter(p => p.categoryId === product.categoryId && p.id !== product.id)
     .slice(0, 4);
 
-  const formatPrice = (p: number) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0,
-    }).format(p);
+  const handleAddToCart = () => {
+    for (let i = 0; i < qty; i++) addItem(product);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
   };
 
   return (
@@ -68,10 +74,15 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </div>
 
             <p className={styles.description}>{product.description}</p>
-            
+
             <div className={styles.priceContainer}>
               {product.oldPrice && <span className={styles.oldPrice}>{formatPrice(product.oldPrice)}</span>}
               <span className={styles.price}>{formatPrice(product.price)}</span>
+              {product.oldPrice && (
+                <span className={styles.savingBadge}>
+                  Save {Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}%
+                </span>
+              )}
             </div>
 
             <div className={styles.specs}>
@@ -83,22 +94,23 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 <span className={styles.specLabel}>Compatibility:</span>
                 <span className={styles.specValue}>{product.compatibility.join(', ')}</span>
               </div>
-              <div className={styles.specItem}>
-                <span className={styles.specLabel}>Version:</span>
-                <span className={styles.specValue}>v2.4.1 (Latest)</span>
-              </div>
             </div>
 
             <div className={styles.actions}>
               <div className={styles.qtyWrapper}>
-                <button className={styles.qtyBtn}>-</button>
-                <input type="number" value="1" readOnly className={styles.qtyInput} />
-                <button className={styles.qtyBtn}>+</button>
+                <button className={styles.qtyBtn} onClick={() => setQty(q => Math.max(1, q - 1))}>-</button>
+                <input type="number" value={qty} readOnly className={styles.qtyInput} />
+                <button className={styles.qtyBtn} onClick={() => setQty(q => q + 1)}>+</button>
               </div>
-              <Link href="/cart" className={`btn btn-primary ${styles.buyBtn}`}>Add to cart</Link>
+              <button
+                className={`btn btn-primary ${styles.buyBtn} ${added ? styles.addedBtn : ''}`}
+                onClick={handleAddToCart}
+              >
+                {added ? '✓ Added to cart!' : 'Add to cart'}
+              </button>
               <button className={`btn btn-secondary ${styles.wishlistBtn}`} aria-label="Add to wishlist">♡</button>
             </div>
-            
+
             <Link href="/checkout" className={`btn btn-accent ${styles.checkoutBtn}`}>Buy it now</Link>
           </div>
         </div>
@@ -117,16 +129,16 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                     {f}
                   </li>
                 ))}
-                <li><span className={styles.check}>✓</span> Premium customer support included</li>
-                <li><span className={styles.check}>✓</span> Regular updates and patches</li>
+                <li><span className={styles.check}>✓</span>Premium customer support included</li>
+                <li><span className={styles.check}>✓</span>Regular updates and patches</li>
               </ul>
             </div>
             <div className={styles.included}>
               <h3 className="h3 mb-6">What's Included</h3>
               <ul className={styles.includedList}>
                 <li>1x {product.licenseType} Activation Key</li>
-                <li>Direct download links (Windows/macOS)</li>
-                <li>Digital Invoice & Receipt</li>
+                <li>Direct download links</li>
+                <li>Digital Invoice &amp; Receipt</li>
                 <li>Getting Started Documentation</li>
               </ul>
             </div>

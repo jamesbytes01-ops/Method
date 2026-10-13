@@ -27,7 +27,7 @@ export default function Home() {
             </p>
             <div className={`${styles.heroActionsSplit} animate-fade-in`} style={{ animationDelay: '0.3s' }}>
               <Link href="/shop" className={`${styles.heroBtn} ${styles.heroBtnPrimary}`}>Explore marketplace</Link>
-              <Link href="/shop?category=software" className={`${styles.heroBtn} ${styles.heroBtnSecondary}`}>Browse categories</Link>
+              <Link href="/deals" className={`${styles.heroBtn} ${styles.heroBtnSecondary}`}>🔥 See deals</Link>
             </div>
           </div>
           <div className={`${styles.heroSplitVisuals} animate-fade-in`} style={{ animationDelay: '0.5s' }}>
@@ -91,9 +91,17 @@ export default function Home() {
               if (i === 3) cardClass += ` ${styles.bentoAccent}`;
               if (i === 4) cardClass += ` ${styles.bentoDark}`;
               if (i === 7) cardClass += ` ${styles.bentoWide}`;
-              
+
+              // Use dedicated pages where they exist
+              const dedicatedPages: Record<string, string> = {
+                software: '/software',
+                security: '/security',
+                'e-books': '/ebooks',
+              };
+              const href = dedicatedPages[c.id] || `/shop?category=${c.id}`;
+
               return (
-                <Link href={`/shop?category=${c.id}`} key={c.id} className={cardClass}>
+                <Link href={href} key={c.id} className={cardClass}>
                   <div className={styles.bentoIcon}>{c.icon}</div>
                   <div className={styles.bentoInfo}>
                     <h3>{c.name}</h3>
@@ -104,6 +112,7 @@ export default function Home() {
               );
             })}
           </div>
+
         </div>
       </section>
 
@@ -112,7 +121,7 @@ export default function Home() {
         <div className="container">
           <div className={styles.sectionHeader}>
             <h2 className="h2">Popular right now</h2>
-            <Link href="/shop" className={styles.linkAction}>View all popular &rarr;</Link>
+            <Link href="/shop" className={styles.linkAction}>View all &rarr;</Link>
           </div>
           <div className={styles.productGrid}>
             {popularProducts.map(p => (
@@ -167,9 +176,12 @@ export default function Home() {
               <span className={styles.securityIcon}>🛡️</span>
               <h2 className="h2">Zero-day threat protection</h2>
             </div>
-            <p className="text-lg text-muted max-w-2xl">
-              Don't compromise on security. Browse our selection of enterprise-grade privacy tools and real-time antivirus software curated for professionals.
-            </p>
+            <div className={styles.securityHeaderRight}>
+              <p className="text-lg text-muted max-w-2xl">
+                Don't compromise on security. Enterprise-grade privacy tools and real-time antivirus curated for professionals.
+              </p>
+              <Link href="/security" className={styles.linkAction} style={{ marginTop: '16px', display: 'inline-block' }}>Browse all security tools &rarr;</Link>
+            </div>
           </div>
           
           <div className={styles.securityGrid}>
@@ -188,6 +200,7 @@ export default function Home() {
               <h2 className="h2 text-accent">Limited licenses</h2>
               <p className="text-muted mt-2">Up to 40% off selected software. Prices return to normal soon.</p>
             </div>
+            <Link href="/deals" className={styles.linkAction}>All deals &rarr;</Link>
           </div>
           <div className={styles.productGrid}>
             {deals.map(p => (
@@ -202,7 +215,7 @@ export default function Home() {
         <div className="container">
           <div className={styles.sectionHeader}>
             <h2 className="h2">The Developer's Library</h2>
-            <Link href="/shop?category=e-books" className={styles.linkAction}>Browse all books &rarr;</Link>
+            <Link href="/ebooks" className={styles.linkAction}>Browse all books &rarr;</Link>
           </div>
           <div className={styles.productGrid}>
             {ebooks.map(p => (

@@ -154,6 +154,16 @@
   line-height: 1;
 }
 
+.savingBadge {
+  display: inline-block;
+  padding: 4px 10px;
+  background-color: #dcfce7;
+  color: var(--success);
+  font-size: 0.875rem;
+  font-weight: 700;
+  border-radius: 20px;
+}
+
 .specs {
   display: flex;
   flex-direction: column;
@@ -220,6 +230,11 @@
   flex-grow: 1;
   height: 48px;
   font-size: 1.125rem;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.addedBtn {
+  background-color: var(--success) !important;
 }
 
 .wishlistBtn {

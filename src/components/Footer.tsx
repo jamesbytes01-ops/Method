@@ -18,13 +18,14 @@ export function Footer() {
           <div className={styles.col}>
             <h4 className={styles.colTitle}>Marketplace</h4>
             <ul className={styles.list}>
-              <li><Link href="/shop?category=software">Software</Link></li>
+              <li><Link href="/software">Software</Link></li>
               <li><Link href="/shop?category=dev-tools">Developer Tools</Link></li>
-              <li><Link href="/shop?category=security">Security</Link></li>
-              <li><Link href="/shop?category=e-books">E-books</Link></li>
-              <li><Link href="/shop?deals=true" className={styles.accentLink}>Deals</Link></li>
+              <li><Link href="/security">Security</Link></li>
+              <li><Link href="/ebooks">E-books</Link></li>
+              <li><Link href="/deals" className={styles.accentLink}>🔥 Deals</Link></li>
             </ul>
           </div>
+
           
           <div className={styles.col}>
             <h4 className={styles.colTitle}>Company</h4>

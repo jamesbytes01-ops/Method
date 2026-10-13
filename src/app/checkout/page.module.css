@@ -291,6 +291,10 @@
   color: var(--text-secondary);
 }
 
+.lockIcon {
+  font-size: 1rem;
+}
+
 @media (max-width: 1024px) {
   .layout {
     grid-template-columns: 1fr;

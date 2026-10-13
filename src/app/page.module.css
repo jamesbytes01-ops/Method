@@ -402,18 +402,23 @@
 }
 
 .securityHeader {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
   align-items: center;
   margin-bottom: 64px;
+}
+
+.securityHeaderRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .securityTitle {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 16px;
 }
 
 .securityIcon {

@@ -1,25 +1,34 @@
+'use client';
+
 import Link from 'next/link';
-import { products } from '@/data/products';
+import { useCart } from '@/context/CartContext';
 import { ProductVisual } from '@/components/ProductVisual';
 import styles from './page.module.css';
+import { useState } from 'react';
+
+const formatPrice = (p: number) =>
+  new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(p);
 
 export default function CheckoutPage() {
-  const cartItems = [
-    { product: products[0], quantity: 1 },
-    { product: products[4], quantity: 1 },
-  ];
+  const { items, subtotal, clearCart } = useCart();
+  const [submitted, setSubmitted] = useState(false);
 
-  const formatPrice = (p: number) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0,
-    }).format(p);
-  };
-
-  const subtotal = cartItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
   const tax = subtotal * 0.18;
   const total = subtotal + tax;
+
+  // Show empty state if cart is empty
+  if (items.length === 0 && !submitted) {
+    return (
+      <div className={styles.checkoutPage}>
+        <div className="container" style={{ textAlign: 'center', padding: '80px 0' }}>
+          <div style={{ fontSize: '3rem', marginBottom: '16px' }}>🛒</div>
+          <h2 className="h2" style={{ marginBottom: '16px' }}>Your cart is empty</h2>
+          <p className="text-muted" style={{ marginBottom: '32px' }}>Add some products before checking out.</p>
+          <Link href="/shop" className="btn btn-primary">Shop Now</Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.checkoutPage}>
@@ -83,7 +92,7 @@ export default function CheckoutPage() {
                     </div>
                   </div>
                 </label>
-                
+
                 <div className={styles.cardForm}>
                   <div className={styles.formGroup}>
                     <label>Card Number</label>
@@ -109,7 +118,7 @@ export default function CheckoutPage() {
                 </label>
               </div>
             </div>
-            
+
             <div className={styles.termsGroup}>
               <label className={styles.checkbox}>
                 <input type="checkbox" required />
@@ -121,10 +130,10 @@ export default function CheckoutPage() {
           <aside className={styles.sidebar}>
             <div className={styles.summaryCard}>
               <h3 className={styles.summaryTitle}>Order Summary</h3>
-              
+
               <div className={styles.itemList}>
-                {cartItems.map((item, idx) => (
-                  <div key={idx} className={styles.item}>
+                {items.map((item) => (
+                  <div key={item.product.id} className={styles.item}>
                     <div className={styles.itemVisual}>
                       <ProductVisual name={item.product.name} category={item.product.categoryId} imageUrl={item.product.imageUrl} />
                       <span className={styles.itemQty}>{item.quantity}</span>
@@ -139,7 +148,7 @@ export default function CheckoutPage() {
               </div>
 
               <div className={styles.divider}></div>
-              
+
               <div className={styles.summaryRow}>
                 <span className={styles.summaryLabel}>Subtotal</span>
                 <span className={styles.summaryValue}>{formatPrice(subtotal)}</span>
@@ -148,18 +157,22 @@ export default function CheckoutPage() {
                 <span className={styles.summaryLabel}>Tax (18%)</span>
                 <span className={styles.summaryValue}>{formatPrice(tax)}</span>
               </div>
-              
+
               <div className={styles.divider}></div>
-              
+
               <div className={styles.totalRow}>
                 <span>Total</span>
                 <span>{formatPrice(total)}</span>
               </div>
-              
-              <Link href="/checkout/success" className={`btn btn-primary ${styles.payBtn}`}>
+
+              <Link
+                href="/checkout/success"
+                className={`btn btn-primary ${styles.payBtn}`}
+                onClick={() => clearCart()}
+              >
                 Pay {formatPrice(total)}
               </Link>
-              
+
               <div className={styles.secureBadge}>
                 <span className={styles.lockIcon}>🔒</span> Payments are secure and encrypted
               </div>
