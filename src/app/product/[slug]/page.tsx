@@ -1,25 +1,33 @@
-'use client';
-
 import { products } from '@/data/products';
 import { ProductVisual } from '@/components/ProductVisual';
 import { ProductCard } from '@/components/ProductCard';
+import { ProductActions } from './ProductActions';
 import styles from './page.module.css';
 import Link from 'next/link';
-import { notFound, useParams } from 'next/navigation';
-import { useCart } from '@/context/CartContext';
-import { useState } from 'react';
+import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 
-const formatPrice = (p: number) =>
-  new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(p);
+// Pre-generate all product pages at build time
+export function generateStaticParams() {
+  return products.map(p => ({ slug: p.slug }));
+}
 
-export default function ProductPage() {
-  const params = useParams();
-  const slug = params?.slug as string;
+// Dynamic metadata per product
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const { slug } = await params;
   const product = products.find(p => p.slug === slug);
+  if (!product) return { title: 'Product Not Found' };
+  return {
+    title: `${product.name} | Method Digital`,
+    description: product.description,
+  };
+}
 
-  const { addItem } = useCart();
-  const [added, setAdded] = useState(false);
-  const [qty, setQty] = useState(1);
+export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const product = products.find(p => p.slug === slug);
 
   if (!product) {
     notFound();
@@ -29,12 +37,6 @@ export default function ProductPage() {
     .filter(p => p.categoryId === product.categoryId && p.id !== product.id)
     .slice(0, 4);
 
-  const handleAddToCart = () => {
-    for (let i = 0; i < qty; i++) addItem(product);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
-  };
-
   return (
     <div className={styles.productPage}>
       {/* BREADCRUMBS */}
@@ -42,7 +44,9 @@ export default function ProductPage() {
         <div className={styles.breadcrumbs}>
           <Link href="/">Home</Link>
           <span className={styles.separator}>/</span>
-          <Link href={`/shop?category=${product.categoryId}`}>{product.categoryId.replace('-', ' ')}</Link>
+          <Link href={`/shop?category=${product.categoryId}`}>
+            {product.categoryId.replace('-', ' ')}
+          </Link>
           <span className={styles.separator}>/</span>
           <span className={styles.current}>{product.name}</span>
         </div>
@@ -52,8 +56,17 @@ export default function ProductPage() {
       <div className={`container ${styles.mainSection}`}>
         <div className={styles.visualCol}>
           <div className={styles.visualWrapper}>
-            {product.badge && <span className={`${styles.badge} ${product.badge === 'Sale' ? styles.badgeAccent : ''}`}>{product.badge}</span>}
-            <ProductVisual name={product.name} category={product.categoryId} imageUrl={product.imageUrl} className={styles.visualSvg} />
+            {product.badge && (
+              <span className={`${styles.badge} ${product.badge === 'Sale' ? styles.badgeAccent : ''}`}>
+                {product.badge}
+              </span>
+            )}
+            <ProductVisual
+              name={product.name}
+              category={product.categoryId}
+              imageUrl={product.imageUrl}
+              className={styles.visualSvg}
+            />
           </div>
           <div className={styles.trustIndicators}>
             <div className={styles.trustItem}>🛡️ Verified License</div>
@@ -62,57 +75,9 @@ export default function ProductPage() {
           </div>
         </div>
 
+        {/* Client component handles all interactive cart functionality */}
         <div className={styles.infoCol}>
-          <div className={styles.stickyWrapper}>
-            <div className={styles.header}>
-              <h1 className="h2">{product.name}</h1>
-              <div className={styles.rating}>
-                <span className={styles.stars}>★★★★★</span>
-                <span className={styles.ratingValue}>{product.rating}</span>
-                <span className={styles.reviews}>({product.reviews} reviews)</span>
-              </div>
-            </div>
-
-            <p className={styles.description}>{product.description}</p>
-
-            <div className={styles.priceContainer}>
-              {product.oldPrice && <span className={styles.oldPrice}>{formatPrice(product.oldPrice)}</span>}
-              <span className={styles.price}>{formatPrice(product.price)}</span>
-              {product.oldPrice && (
-                <span className={styles.savingBadge}>
-                  Save {Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}%
-                </span>
-              )}
-            </div>
-
-            <div className={styles.specs}>
-              <div className={styles.specItem}>
-                <span className={styles.specLabel}>License type:</span>
-                <span className={styles.specValue}>{product.licenseType}</span>
-              </div>
-              <div className={styles.specItem}>
-                <span className={styles.specLabel}>Compatibility:</span>
-                <span className={styles.specValue}>{product.compatibility.join(', ')}</span>
-              </div>
-            </div>
-
-            <div className={styles.actions}>
-              <div className={styles.qtyWrapper}>
-                <button className={styles.qtyBtn} onClick={() => setQty(q => Math.max(1, q - 1))}>-</button>
-                <input type="number" value={qty} readOnly className={styles.qtyInput} />
-                <button className={styles.qtyBtn} onClick={() => setQty(q => q + 1)}>+</button>
-              </div>
-              <button
-                className={`btn btn-primary ${styles.buyBtn} ${added ? styles.addedBtn : ''}`}
-                onClick={handleAddToCart}
-              >
-                {added ? '✓ Added to cart!' : 'Add to cart'}
-              </button>
-              <button className={`btn btn-secondary ${styles.wishlistBtn}`} aria-label="Add to wishlist">♡</button>
-            </div>
-
-            <Link href="/checkout" className={`btn btn-accent ${styles.checkoutBtn}`}>Buy it now</Link>
-          </div>
+          <ProductActions product={product} />
         </div>
       </div>
 
@@ -134,7 +99,7 @@ export default function ProductPage() {
               </ul>
             </div>
             <div className={styles.included}>
-              <h3 className="h3 mb-6">What's Included</h3>
+              <h3 className="h3 mb-6">What&apos;s Included</h3>
               <ul className={styles.includedList}>
                 <li>1x {product.licenseType} Activation Key</li>
                 <li>Direct download links</li>

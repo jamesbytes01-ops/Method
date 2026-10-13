@@ -1,0 +1,22 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"main": ".open-next/worker.js",
+	"name": "method",
+	"compatibility_date": "2026-10-06",
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"services": [
+		{
+			// Self-reference service binding — service name must match the worker name
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "method"
+		}
+	],
+	"images": {
+		// Enable image optimization
+		"binding": "IMAGES"
+	}
+}

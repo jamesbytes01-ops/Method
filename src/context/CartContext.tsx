@@ -69,29 +69,46 @@ const CartContext = createContext<CartContextValue | null>(null);
 
 const STORAGE_KEY = 'method_cart';
 
+// Safe localStorage helpers — guard against SSR / Edge / private browsing
+function safeGetStorage(key: string): string | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    return window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function safeSetStorage(key: string, value: string): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {
+    // ignore quota exceeded, private mode, etc.
+  }
+}
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, { items: [] });
 
-  // Hydrate from localStorage on mount
+  // Hydrate from localStorage on client mount only
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
+    const stored = safeGetStorage(STORAGE_KEY);
+    if (stored) {
+      try {
         const parsed = JSON.parse(stored) as CartItem[];
-        dispatch({ type: 'HYDRATE', items: parsed });
+        if (Array.isArray(parsed)) {
+          dispatch({ type: 'HYDRATE', items: parsed });
+        }
+      } catch {
+        // corrupted storage — ignore
       }
-    } catch {
-      // ignore
     }
   }, []);
 
-  // Persist to localStorage on every change
+  // Persist to localStorage whenever cart changes
   useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.items));
-    } catch {
-      // ignore
-    }
+    safeSetStorage(STORAGE_KEY, JSON.stringify(state.items));
   }, [state.items]);
 
   const totalItems = state.items.reduce((acc, i) => acc + i.quantity, 0);
